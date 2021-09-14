@@ -7,6 +7,7 @@ resource "azurerm_public_ip" "lab-bastion" {
   tags                = local.common_tags
 }
 
+
 resource "azurerm_network_interface" "lab-bastion" {
   name                = "aztf-labs-nic"
   resource_group_name = azurerm_resource_group.lab.name
@@ -21,6 +22,7 @@ resource "azurerm_network_interface" "lab-bastion" {
 
   tags = local.common_tags
 }
+
 
 resource "azurerm_linux_virtual_machine" "lab-bastion" {
   name                            = "aztf-labs-bastion-vm"
