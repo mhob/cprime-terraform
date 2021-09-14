@@ -19,24 +19,26 @@ provider "azurerm" {
   skip_provider_registration = true
 }
 
-resource "azurerm_resource_group" "lab" {
-  name     = "aztf-labs-rg"
-  location = "westus2"
-  tags = {
+locals {
+  region = "westus2"
+  common_tags = {
     Environment = "Lab"
     Project     = "AZTF Training"
   }
 }
 
+resource "azurerm_resource_group" "lab" {
+  name     = "aztf-labs-rg"
+  location = local.region
+  tags     = local.common_tags
+}
+
 resource "azurerm_virtual_network" "lab" {
   name                = "aztf-labs-vnet"
-  location            = "westus2"
+  location            = local.region
   resource_group_name = azurerm_resource_group.lab.name
   address_space       = ["10.0.0.0/16"]
-  tags = {
-    Environment = "Lab"
-    Project     = "AZTF Training"
-  }
+  tags                = local.common_tags
 }
 
 resource "azurerm_subnet" "lab-public" {
@@ -55,7 +57,7 @@ resource "azurerm_subnet" "lab-private" {
 
 resource "azurerm_network_security_group" "lab-public" {
   name                = "aztf-labs-public-sg"
-  location            = "westus2"
+  location            = local.region
   resource_group_name = azurerm_resource_group.lab.name
 }
 
