@@ -1,0 +1,3 @@
+[submodule "terraform-azure-intro"]
+	path = terraform-azure-intro
+	url = https://github.com/CprimeLearningLabs/terraform-azure-intro.git
