@@ -47,3 +47,7 @@ TF_LOG=TRACE terraform plan
 ```
 
 Another reference: [Manipulating Terraform state](https://www.terraform.io/docs/cli/state/index.html)
+
+## Modules
+
+A module is a container for multiple resources used together.

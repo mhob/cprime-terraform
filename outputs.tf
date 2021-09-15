@@ -3,7 +3,7 @@ output "bastion-vm-public-ip" {
 }
 
 output "db-server-endpoint" {
-  value = azurerm_postgresql_server.lab.fqdn
+  value = module.database-server.server_fqdn
 }
 
 # Add a new output so we can easily get the load balancer public IP.
