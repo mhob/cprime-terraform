@@ -23,3 +23,15 @@ variable "tags" {
   type    = map(string)
   default = {}
 }
+
+# Lab 4.6: Add two more variables:
+# - `node_count` of type number with default as null
+# - `load_level` of type string with default as empty string
+variable "node_count" {
+  type    = number
+  default = null
+}
+variable "load_level" {
+  type    = string
+  default = ""
+}

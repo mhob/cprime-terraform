@@ -37,7 +37,25 @@ locals {
     Environment = "Lab"
     Project     = "AZTF Training"
   })
-  cluster_size = 2
+  # Lab4.6: add size specs
+  size_spec = {
+    low = {
+      cluster_size = 1
+    },
+    medium = {
+      cluster_size = 2
+    },
+    high = {
+      cluster_size = 3
+    }
+  }
+  # Lab4.6: determine cluster_size according to the following criteria:
+  # - Use input variable node_count if it is not null
+  # - Otherwise use the input variable load_level to lookup a cluster_size value
+  #   from the size_spec map
+  # - If both node_count and load_level input variables are undefined, then the
+  #   default cluster size should be 1
+  cluster_size = try(coalesce(var.node_count, lookup(local.size_spec, var.load_level).cluster_size), 1)
   # lab4.5: map of security group rules
   sg_rules = {
     HTTP-Access = {
