@@ -37,3 +37,11 @@ or
 LOCK_ID should be in the message above.
 
 (!) Note that you should check to ensure that no one else is using the lock!
+
+## Troubleshooting
+
+To "debug" Terraform, set the `TF_LOG` variable:
+
+```sh
+TF_LOG=TRACE terraform plan
+```
