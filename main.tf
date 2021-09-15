@@ -81,3 +81,8 @@ resource "azurerm_subnet_network_security_group_association" "lab-public" {
   subnet_id                 = azurerm_subnet.lab-public.id
   network_security_group_id = azurerm_network_security_group.lab-public.id
 }
+
+resource "random_integer" "suffix" {
+  min = 10000
+  max = 99999
+}
