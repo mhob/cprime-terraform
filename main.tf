@@ -32,10 +32,11 @@ provider "azuread" {}
 
 locals {
   region = var.region
-  common_tags = {
+  # Lab4.6: merge the `tags` input variable and the existing tag map
+  common_tags = merge(var.tags, {
     Environment = "Lab"
     Project     = "AZTF Training"
-  }
+  })
   cluster_size = 2
   # lab4.5: map of security group rules
   sg_rules = {

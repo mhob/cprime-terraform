@@ -17,3 +17,9 @@ variable "db_storage" {
     error_message = "Minimum db storage is 5120 and must be multiple of 1024."
   }
 }
+
+# Lab4.6: Add a new variable to accept additional tags to set on our resources.
+variable "tags" {
+  type    = map(string)
+  default = {}
+}
