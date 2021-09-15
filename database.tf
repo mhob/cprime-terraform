@@ -5,7 +5,7 @@ resource "azurerm_postgresql_server" "lab" {
 
   sku_name                      = "B_Gen5_1"
   version                       = "11"
-  storage_mb                    = 5120
+  storage_mb                    = var.db_storage
   public_network_access_enabled = true
   ssl_enforcement_enabled       = false
 

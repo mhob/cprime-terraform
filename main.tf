@@ -31,7 +31,7 @@ provider "azurerm" {
 provider "azuread" {}
 
 locals {
-  region = "westus2"
+  region = var.region
   common_tags = {
     Environment = "Lab"
     Project     = "AZTF Training"
