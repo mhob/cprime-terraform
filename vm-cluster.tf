@@ -1,3 +1,11 @@
+module "load-balancer" {
+  source = "./load-balancer"
+
+  location            = local.region
+  resource_group_name = azurerm_resource_group.lab.name
+  tags                = local.common_tags
+}
+
 # Add a network interface for the virtual machines to have a private IP on the
 # private subnet. We use `count` to create a separate NIC for each virtual
 # machine.
@@ -22,7 +30,7 @@ resource "azurerm_network_interface_backend_address_pool_association" "lab-app" 
   count                   = local.cluster_size
   network_interface_id    = azurerm_network_interface.lab-app[count.index].id
   ip_configuration_name   = "labConfiguration"
-  backend_address_pool_id = azurerm_lb_backend_address_pool.lab.id
+  backend_address_pool_id = module.load-balancer.backend_address_pool_id
 }
 
 # Add an availability set. We do not use `count` here since we only need one

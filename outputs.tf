@@ -8,5 +8,5 @@ output "db-server-endpoint" {
 
 # Add a new output so we can easily get the load balancer public IP.
 output "load-balancer-public-ip" {
-  value = azurerm_public_ip.lab-lb.ip_address
+  value = module.load-balancer.public_ip_address
 }
