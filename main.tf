@@ -14,9 +14,10 @@ terraform {
     }
   }
   backend "azurerm" {
-    resource_group_name = "terraform-course-backend"
-    container_name      = "tfstate"
-    key                 = "cprime.terraform.labs.tfstate"
+    resource_group_name  = "terraform-course-backend"
+    container_name       = "tfstate"
+    key                  = "cprime.terraform.labs.tfstate"
+    storage_account_name = "aztfcoursebackend05"
   }
   required_version = "~> 1.0.0"
 }
