@@ -45,3 +45,5 @@ To "debug" Terraform, set the `TF_LOG` variable:
 ```sh
 TF_LOG=TRACE terraform plan
 ```
+
+Another reference: [Manipulating Terraform state](https://www.terraform.io/docs/cli/state/index.html)
