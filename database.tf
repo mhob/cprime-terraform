@@ -1,8 +1,3 @@
-resource "random_integer" "suffix" {
-  min = 10000
-  max = 99999
-}
-
 resource "azurerm_postgresql_server" "lab" {
   name                = "aztf-labs-psqlserver-${random_integer.suffix.result}"
   location            = local.region
