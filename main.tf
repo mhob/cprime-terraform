@@ -8,6 +8,10 @@ terraform {
       source  = "hashicorp/random"
       version = "~> 2.3.0"
     }
+    azuread = {
+      source  = "hashicorp/azuread"
+      version = ">= 1.0.0"
+    }
   }
   backend "azurerm" {
     resource_group_name = "terraform-course-backend"
@@ -22,6 +26,8 @@ provider "azurerm" {
   # Below may be needed for lab environment
   skip_provider_registration = true
 }
+
+provider "azuread" {}
 
 locals {
   region = "westus2"

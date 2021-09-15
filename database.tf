@@ -15,7 +15,7 @@ resource "azurerm_postgresql_server" "lab" {
   ssl_enforcement_enabled       = false
 
   administrator_login          = "psqladmin"
-  administrator_login_password = "AZtfl4b$"
+  administrator_login_password = azurerm_key_vault_secret.lab-db-pwd.value
 
   tags = local.common_tags
 }
