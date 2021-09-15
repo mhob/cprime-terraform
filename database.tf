@@ -32,6 +32,8 @@ module "database-server" {
   db_collation = "English_United States.1252"
 
   tags = local.common_tags
+
+  depends_on = [azurerm_resource_group.lab]
 }
 
 resource "azurerm_postgresql_firewall_rule" "lab" {
