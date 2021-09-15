@@ -36,6 +36,7 @@ locals {
     Environment = "Lab"
     Project     = "AZTF Training"
   }
+  cluster_size = 2
 }
 
 resource "azurerm_resource_group" "lab" {
@@ -84,9 +85,47 @@ resource "azurerm_network_security_group" "lab-public" {
   }
 }
 
+# Add a new security group for the private subnet that will allow traffic to
+# ports 80 and 22 on our new virtual machines.
+resource "azurerm_network_security_group" "lab-private" {
+  name                = "aztf-labs-private-sg"
+  location            = local.region
+  resource_group_name = azurerm_resource_group.lab.name
+
+  security_rule {
+    name                         = "HTTP-Access"
+    priority                     = 100
+    direction                    = "Inbound"
+    access                       = "Allow"
+    protocol                     = "Tcp"
+    source_port_range            = "*"
+    destination_port_range       = "80"
+    source_address_prefix        = "*"
+    destination_address_prefixes = azurerm_subnet.lab-private.address_prefixes
+  }
+
+  security_rule {
+    name                         = "SSH-Access"
+    priority                     = 110
+    direction                    = "Inbound"
+    access                       = "Allow"
+    protocol                     = "Tcp"
+    source_port_range            = "*"
+    destination_port_range       = "22"
+    source_address_prefix        = "*"
+    destination_address_prefixes = azurerm_subnet.lab-private.address_prefixes
+  }
+}
+
 resource "azurerm_subnet_network_security_group_association" "lab-public" {
   subnet_id                 = azurerm_subnet.lab-public.id
   network_security_group_id = azurerm_network_security_group.lab-public.id
+}
+
+# Associate the new security group to the private subnet.
+resource "azurerm_subnet_network_security_group_association" "lab-private" {
+  subnet_id                 = azurerm_subnet.lab-private.id
+  network_security_group_id = azurerm_network_security_group.lab-private.id
 }
 
 resource "random_integer" "suffix" {
