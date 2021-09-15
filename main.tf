@@ -37,6 +37,23 @@ locals {
     Project     = "AZTF Training"
   }
   cluster_size = 2
+  # lab4.5: map of security group rules
+  sg_rules = {
+    HTTP-Access = {
+      priority               = 100,
+      direction              = "Inbound",
+      access                 = "Allow",
+      protocol               = "Tcp",
+      destination_port_range = 80
+    },
+    SSH-Access = {
+      priority               = 110,
+      direction              = "Inbound",
+      access                 = "Allow",
+      protocol               = "Tcp",
+      destination_port_range = 22
+    }
+  }
 }
 
 resource "azurerm_resource_group" "lab" {
@@ -91,29 +108,21 @@ resource "azurerm_network_security_group" "lab-private" {
   name                = "aztf-labs-private-sg"
   location            = local.region
   resource_group_name = azurerm_resource_group.lab.name
-
-  security_rule {
-    name                         = "HTTP-Access"
-    priority                     = 100
-    direction                    = "Inbound"
-    access                       = "Allow"
-    protocol                     = "Tcp"
-    source_port_range            = "*"
-    destination_port_range       = "80"
-    source_address_prefix        = "*"
-    destination_address_prefixes = azurerm_subnet.lab-private.address_prefixes
-  }
-
-  security_rule {
-    name                         = "SSH-Access"
-    priority                     = 110
-    direction                    = "Inbound"
-    access                       = "Allow"
-    protocol                     = "Tcp"
-    source_port_range            = "*"
-    destination_port_range       = "22"
-    source_address_prefix        = "*"
-    destination_address_prefixes = azurerm_subnet.lab-private.address_prefixes
+  # lab4.5: replace the security group rules in the private network security
+  # group with a dynamic block
+  dynamic "security_rule" {
+    for_each = local.sg_rules
+    content {
+      name                         = security_rule.key
+      priority                     = security_rule.value.priority
+      direction                    = security_rule.value.direction
+      access                       = security_rule.value.access
+      protocol                     = security_rule.value.protocol
+      source_port_range            = "*"
+      destination_port_range       = security_rule.value.destination_port_range
+      source_address_prefix        = "*"
+      destination_address_prefixes = azurerm_subnet.lab-private.address_prefixes
+    }
   }
 }
 
